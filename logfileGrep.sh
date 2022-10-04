@@ -18,4 +18,6 @@ grep "ls" $2 > $1
 echo ">>>ALL LINES INCLUDING CAT<<<\n" > $1
 grep "cat" $2 > $1
 
+echo ">>>ALL LINES INCLUDING CD<<<\n" > $1
+grep "cd" $2 > $1
  

@@ -29,7 +29,7 @@ else
 
 
 	sudo sysctl -w net.ipv4.conf.all.route_localnet=1
-	sudo forever -l ~/personalContainer.log -a start ~/MITM/mitm.js -n $1 -i $personalContainerIP -p 6901 --auto-access --auto-access-fixed 1 --debug
+	sudo forever -l ~/personalContainer.log -a start ~/MITM/mitm.js -n $2 -i $personalContainerIP -p 6901 --auto-access --auto-access-fixed 1 --debug
 	sudo ip addr add $personalMachine/24 brd + dev "enp4s2"
 
 	sudo iptables --table nat --insert PREROUTING --source 0.0.0.0/0 --destination $personalMachine --jump DNAT --to-destination $personalContainerIP
@@ -37,7 +37,7 @@ else
 	sudo iptables --table nat --insert PREROUTING --source 0.0.0.0/0 --destination $personalMachine --protocol tcp --dport 22 --jump DNAT --to-destination $hostIP:6901
 
 	sudo sysctl -w net.ipv4.conf.all.route_localnet=1
-	sudo forever -l ~/corporateContainer.log -a start ~/MITM/mitm.js -n $1 -i $corporateContainerIP -p 6903 --auto-access --auto-access-fixed 1 --debug
+	sudo forever -l ~/corporateContainer.log -a start ~/MITM/mitm.js -n $3 -i $corporateContainerIP -p 6903 --auto-access --auto-access-fixed 1 --debug
 	sudo ip addr add $corporateMachine/24 brd + dev "enp4s2"
 
 	sudo iptables --table nat --insert PREROUTING --source 0.0.0.0/0 --destination $corporateMachine --jump DNAT --to-destination $corporateContainerIP

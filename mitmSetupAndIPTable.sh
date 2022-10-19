@@ -1,9 +1,9 @@
 #!/bin/bash
 
-shuf ./ipAdresses > ./shuffledIpAddresses
+shuf ~/HACS200-Group2G/ipAdresses > ~/HACS200-Group2G/shuffledIpAddresses
 emptyMachine=`head -n 1 shuffledIpAddresses`
 personalMachine=`head -n 2 shuffledIpAddresses | tail -n 1`
-corporateMachine=`shuf ipAdresses | head -n 3 | tail -n 1`
+corporateMachine=`head -n 3 shuffledIpAddresses | tail -n 1`
 hostIP='127.0.0.1'
 
 
@@ -19,7 +19,7 @@ else
 	corporateContainerIP=`sudo lxc-ls -f | grep -w  $3 | awk '{print $5}'`
 
 	sudo sysctl -w net.ipv4.conf.all.route_localnet=1
-	sudo forever -l ~/emptyContainerLog.log -a start ~/MITM/mitm.js -n $1 -i $emptyContainerIP -p 6900 --auto-access --auto-access-fixed 3 --debug
+	sudo forever -l ~/emptyContainerLog.log -a start ~/MITM/mitm.js -n $1 -i $emptyContainerIP -p 6900 --auto-access --auto-access-fixed 1 --debug
 	sudo ip link set dev enp4s2 up
 	sudo ip addr add $empytMachine/24 brd + dev "enp4s2"
 
@@ -29,7 +29,7 @@ else
 
 
 	sudo sysctl -w net.ipv4.conf.all.route_localnet=1
-	sudo forever -l ~/personalContainer.log -a start ~/MITM/mitm.js -n $1 -i $personalContainerIP -p 6900 --auto-access --auto-access-fixed 3 --debug
+	sudo forever -l ~/personalContainer.log -a start ~/MITM/mitm.js -n $1 -i $personalContainerIP -p 6901 --auto-access --auto-access-fixed 1 --debug
 	sudo ip addr add $personalMachine/24 brd + dev "enp4s2"
 
 	sudo iptables --table nat --insert PREROUTING --source 0.0.0.0/0 --destination $personalMachine --jump DNAT --to-destination $personalContainerIP
@@ -37,7 +37,7 @@ else
 	sudo iptables --table nat --insert PREROUTING --source 0.0.0.0/0 --destination $personalMachine --protocol tcp --dport 22 --jump DNAT --to-destination $hostIP:6901
 
 	sudo sysctl -w net.ipv4.conf.all.route_localnet=1
-	sudo forever -l ~/corporateContainer.log -a start ~/MITM/mitm.js -n $1 -i $corporateContainerIP -p 6900 --auto-access --auto-access-fixed 3 --debug
+	sudo forever -l ~/corporateContainer.log -a start ~/MITM/mitm.js -n $1 -i $corporateContainerIP -p 6903 --auto-access --auto-access-fixed 1 --debug
 	sudo ip addr add $corporateMachine/24 brd + dev "enp4s2"
 
 	sudo iptables --table nat --insert PREROUTING --source 0.0.0.0/0 --destination $corporateMachine --jump DNAT --to-destination $corporateContainerIP

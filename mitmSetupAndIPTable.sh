@@ -1,6 +1,6 @@
 #!/bin/bash
 
-shuf ipAdresses > shuffledIpAddresses
+shuf ./ipAdresses > ./shuffledIpAddresses
 emptyMachine=`head -n 1 shuffledIpAddresses`
 personalMachine=`head -n 2 shuffledIpAddresses | tail -n 1`
 corporateMachine=`shuf ipAdresses | head -n 3 | tail -n 1`

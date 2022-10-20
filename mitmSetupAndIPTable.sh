@@ -4,7 +4,7 @@ shuf ~/HACS200-Group2G/ipAdresses > ~/HACS200-Group2G/shuffledIpAddresses
 emptyMachine=`head -n 1 ~/HACS200-Group2G/shuffledIpAddresses`
 personalMachine=`head -n 2 ~/HACS200-Group2G/shuffledIpAddresses | tail -n 1`
 corporateMachine=`head -n 3 ~/HACS200-Group2G/shuffledIpAddresses | tail -n 1`
-hostIP='127.0.0.1'
+hostIP='10.0.3.1'
 
 
 echo $emptyMachine

@@ -65,13 +65,13 @@ else
     sleep 5
 
     sudo lxc-start $1
-    sleep 2
+    sleep 10
 
     sudo lxc-start $2
-    sleep 2
+    sleep 10
 
     sudo lxc-start $3
-    sleep 2
+    sleep 10
 
 
 #Sets up mitm and IP Table rules for the three containers

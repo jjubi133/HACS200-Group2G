@@ -56,6 +56,7 @@ LOG=0
 # MODE=2: Ports to Open on the Honeypots
 hp_tcp='22'
 hp_udp=''
+
 ##
 # Ports to open on the Host
 host_tcp='22'
@@ -107,6 +108,7 @@ done
 
 # Allow connections to the host on the private ip $CONTAINER_GATEWAY (for the MITM)
 /sbin/iptables -A INPUT -d $CONTAINER_GATEWAY -p tcp ! --dport 22 -j ACCEPT -m comment --comment "Allow connections to the host for MITM"
+/sbin/iptables -A INPUT -d 127.0.0.1 -p tcp ! --dport 22 -j ACCEPT -m comment --comment "Allow connections to localhost for MITM"
 
 # Allow related/established connections
 /sbin/iptables -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT -m comment --comment "Allow related/established connections"
@@ -211,5 +213,3 @@ fi
 /sbin/iptables -A FORWARD -s $CONTAINER_NETWORK -j ACCEPT -m comment --comment "Allow all other honeypot outgoing"
 
 exit 0
-
-

@@ -36,7 +36,7 @@ else
 #personal machine
     sudo iptables --table nat --delete PREROUTING --source 0.0.0.0/0 --destination $personalMachine --jump DNAT --to-destination $personalContainerIP
     sudo iptables --table nat --delete POSTROUTING --source $personalContainerIP --destination 0.0.0.0/0 --jump SNAT --to-source $personalMachine
-    sudo iptables --table nat --delete PREROUTING --source 0.0.0.0/0 --destination $personalMachine --protocol tcp --dport 22 --jump DNAT --to-destination $hostIP:6900
+    sudo iptables --table nat --delete PREROUTING --source 0.0.0.0/0 --destination $personalMachine --protocol tcp --dport 22 --jump DNAT --to-destination $hostIP:6901
     sudo ip addr delete $personalMachine/24 brd + dev "enp4s2"
     sudo lxc-stop $2
     sleep 2
@@ -45,12 +45,12 @@ else
 #Corporate Machine
     sudo iptables --table nat --delete PREROUTING --source 0.0.0.0/0 --destination $corporateMachine --jump DNAT --to-destination $corporateContainerIP
     sudo iptables --table nat --delete POSTROUTING --source $corporateContainerIP --destination 0.0.0.0/0 --jump SNAT --to-source $corporateMachine
-    sudo iptables --table nat --delete PREROUTING --source 0.0.0.0/0 --destination $corporateMachine --protocol tcp --dport 22 --jump DNAT --to-destination $hostIP:6900
+    sudo iptables --table nat --delete PREROUTING --source 0.0.0.0/0 --destination $corporateMachine --protocol tcp --dport 22 --jump DNAT --to-destination $hostIP:6903
     sudo ip addr delete $corporateMachine/24 brd + dev "enp4s2"
     sudo lxc-stop $3
     sleep 2
 
-#Snapshots of each container will already be created as well as the contents inside the container will already be created before this script will be run. 
+#Snapshots of each container will already be created as well as the contents inside the container will already be created before this script will be run.
     sudo lxc-snapshot $1 -r snap0
     sleep 5
 

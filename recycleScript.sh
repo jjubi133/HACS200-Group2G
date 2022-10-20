@@ -5,6 +5,10 @@ personalMachine=`head -n 2 ~/HACS200-Group2G/shuffledIpAddresses | tail -n 1`
 corporateMachine=`head -n 3 ~/HACS200-Group2G/shuffledIpAddresses | tail -n 1`
 hostIP='127.0.0.1'
 
+echo $emptyMachine
+echo $personalMachine
+echo $corporateMachine
+
 
 #Containers should already be made before deployment so that we can recycle the containers by jest redeploying their snapshots before the attacker has entered.
 if [ $# -ne 3 ]

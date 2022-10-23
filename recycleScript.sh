@@ -1,13 +1,9 @@
 #!/bin/bash
 
-emptyMachine=`head -n 1 ~/HACS200-Group2G/shuffledIpAddresses`
-personalMachine=`head -n 2 ~/HACS200-Group2G/shuffledIpAddresses | tail -n 1`
-corporateMachine=`head -n 3 ~/HACS200-Group2G/shuffledIpAddresses | tail -n 1`
+emptyMachine=`head -n 1 /home/student/HACS200-Group2G/shuffledIpAddresses`
+personalMachine=`head -n 2 /home/student/HACS200-Group2G/shuffledIpAddresses | tail -n 1`
+corporateMachine=`head -n 3 /home/student/HACS200-Group2G/shuffledIpAddresses | tail -n 1`
 hostIP='10.0.3.1'
-
-echo $emptyMachine
-echo $personalMachine
-echo $corporateMachine
 
 
 #Containers should already be made before deployment so that we can recycle the containers by jest redeploying their snapshots before the attacker has entered.
@@ -33,6 +29,7 @@ else
     sudo iptables --table nat --delete PREROUTING --source 0.0.0.0/0 --destination $emptyMachine --jump DNAT --to-destination $emptyContainerIP
     sudo iptables --table nat --delete POSTROUTING --source $emptyContainerIP --destination 0.0.0.0/0 --jump SNAT --to-source $emptyMachine
     sudo iptables --table nat --delete PREROUTING --source 0.0.0.0/0 --destination $emptyMachine --protocol tcp --dport 22 --jump DNAT --to-destination $hostIP:6900
+    sudo iptables --table nat --delete POSTROUTING --source $emptyMachine --destination 0.0.0.0/0 --jump SNAT --to-source $emptyContainerIP
     sudo ip addr delete $emptyMachine/24 brd + dev "enp4s2"
     sudo lxc-stop $1
     sleep 2
@@ -41,6 +38,7 @@ else
     sudo iptables --table nat --delete PREROUTING --source 0.0.0.0/0 --destination $personalMachine --jump DNAT --to-destination $personalContainerIP
     sudo iptables --table nat --delete POSTROUTING --source $personalContainerIP --destination 0.0.0.0/0 --jump SNAT --to-source $personalMachine
     sudo iptables --table nat --delete PREROUTING --source 0.0.0.0/0 --destination $personalMachine --protocol tcp --dport 22 --jump DNAT --to-destination $hostIP:6901
+    sudo iptables --table nat --delete POSTROUTING --source $personalMachine --destination 0.0.0.0/0 --jump SNAT --to-source $personalContainerIP
     sudo ip addr delete $personalMachine/24 brd + dev "enp4s2"
     sudo lxc-stop $2
     sleep 2
@@ -51,6 +49,7 @@ else
     sudo iptables --table nat --delete POSTROUTING --source $corporateContainerIP --destination 0.0.0.0/0 --jump SNAT --to-source $corporateMachine
     sudo iptables --table nat --delete PREROUTING --source 0.0.0.0/0 --destination $corporateMachine --protocol tcp --dport 22 --jump DNAT --to-destination $hostIP:6903
     sudo ip addr delete $corporateMachine/24 brd + dev "enp4s2"
+    sudo iptables --table nat --delete POSTROUTING --source $corporateMachine --destination 0.0.0.0/0 --jump SNAT --to-source $corporateContainerIP
     sudo lxc-stop $3
     sleep 2
 
@@ -75,7 +74,7 @@ else
 
 
 #Sets up mitm and IP Table rules for the three containers
-    ./mitmSetupAndIPTable.sh $1 $2 $3
+    /home/student/HACS200-Group2G/mitmSetupAndIPTable.sh $1 $2 $3
     sleep 5
 
   else

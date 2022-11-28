@@ -24,6 +24,9 @@ else
     personalContainerIP=`sudo lxc-ls -f | grep -w  $2 | awk '{print $5}'`
     corporateContainerIP=`sudo lxc-ls -f | grep -w  $3 | awk '{print $5}'`
 
+    attackIP_E=`grep "Auto Access" /home/student/emptyContainerLog.log| tail -n 4 | head -n 1 | cut -d" " -f8 | cut -d"," -f1`
+    attackIP_P=`grep "Auto Access" /home/student/personalContainer.log| tail -n 4 | head -n 1 | cut -d" " -f8 | cut -d"," -f1`
+    attackIP_C=`grep "Auto Access" /home/student/personalContainer.log| tail -n 4 | head -n 1 | cut -d" " -f8 | cut -d"," -f1`
 
 #Empty Machine
     sudo iptables --table nat --delete PREROUTING --source 0.0.0.0/0 --destination $emptyMachine --jump DNAT --to-destination $emptyContainerIP

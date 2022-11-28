@@ -4,6 +4,7 @@ date=`/usr/bin/date`
 /usr/bin/touch /home/student/"healthLog$date"
 #Checking RAM
 echo ">>>RAM<<<" >> /home/student/"healthLog$date"
+/usr/bin/free -m >> /home/student/"healthLog$date"
 #Checking Disk Space
 echo ">>>Disk Space<<<" >> /home/student/"healthLog$date"
 /usr/bin/df >> /home/student/"healthLog$date"
